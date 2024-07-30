@@ -1,0 +1,53 @@
+import { Schema, Document, model, ObjectId } from "mongoose";
+import { Product } from "./seller.Product";
+
+interface Product {
+  productId: ObjectId;
+  productName: string;
+}
+export interface IAuth extends Document {
+  sellerId: ObjectId;
+  bundleName: string;
+  description: string;
+  products: Product[];
+  bundlePrice: number;
+}
+
+const AuthSchema: Schema = new Schema(
+  {
+    sellerId: {
+      type: Schema.Types.ObjectId,
+      ref: "Auth",
+      required: true,
+    },
+    bundleName: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    products: {
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+      productName: {
+        type: String,
+        required: true,
+      },
+    },
+    bundlePrice: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+
+export const BundleProduct = model<IAuth>("BundleProduct", AuthSchema);
