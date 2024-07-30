@@ -3,8 +3,11 @@ import { Product } from "../models/seller.model";
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
+    const user = req.user;
+
     const { name, description, price, category } = req.body;
     const product = await Product.create({
+      sellerId: user.id,
       name,
       description,
       price,

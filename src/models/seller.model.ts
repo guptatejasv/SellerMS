@@ -1,6 +1,7 @@
-import { Schema, Document, model } from "mongoose";
+import { Schema, Document, model, ObjectId } from "mongoose";
 
 export interface IAuth extends Document {
+  sellerId: ObjectId;
   name: string;
   description: string;
   price: number;
@@ -11,6 +12,11 @@ export interface IAuth extends Document {
 
 const AuthSchema: Schema = new Schema(
   {
+    sellerId: {
+      type: Schema.Types.ObjectId,
+      ref: "Auth",
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -27,6 +33,7 @@ const AuthSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+
     stock: {
       type: Number,
     },
