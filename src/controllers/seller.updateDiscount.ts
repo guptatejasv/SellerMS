@@ -1,20 +1,25 @@
 import { Request, Response } from "express";
-import { Product } from "../models/seller.Product";
 
-export const updateProduct = async (req: Request, res: Response) => {
+import { Discount } from "../models/seller.Discount";
+
+export const updateDiscount = async (req: Request, res: Response) => {
   try {
     // const user = req.user;
     const pro_id = req.params.id;
 
-    const product = await Product.findByIdAndUpdate(pro_id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const discountDetail = await Discount.findOneAndUpdate(
+      { productId: pro_id },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     res.status(200).json({
       status: "success",
       message: "Product details updated successfully..!",
       result: {
-        product,
+        discountDetail,
       },
     });
   } catch (err) {
