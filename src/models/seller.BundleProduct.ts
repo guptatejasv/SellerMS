@@ -13,6 +13,11 @@ export interface IAuth extends Document {
   bundlePrice: number;
 }
 
+const productSchema = new Schema<Product>({
+  productId: { type: Schema.Types.ObjectId, required: true },
+  productName: { type: String, required: true },
+});
+
 const AuthSchema: Schema = new Schema(
   {
     sellerId: {
@@ -29,15 +34,8 @@ const AuthSchema: Schema = new Schema(
       required: true,
     },
     products: {
-      productId: {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
-      productName: {
-        type: String,
-        required: true,
-      },
+      type: [productSchema],
+      required: true,
     },
     bundlePrice: {
       type: Number,
