@@ -7,6 +7,8 @@ export interface IAuth extends Document {
   discount?: number;
   startDate?: Date;
   endDate?: Date;
+  isBlocked: boolean;
+  isDeleted: boolean;
 }
 
 const AuthSchema: Schema = new Schema(
@@ -32,6 +34,14 @@ const AuthSchema: Schema = new Schema(
     },
     endDate: {
       type: Date,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
     },
   },
   {

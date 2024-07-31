@@ -11,6 +11,8 @@ export interface IAuth extends Document {
   description: string;
   products: Product[];
   bundlePrice: number;
+  isBlocked: boolean;
+  isDeleted: boolean;
 }
 
 const productSchema = new Schema<Product>({
@@ -40,6 +42,14 @@ const AuthSchema: Schema = new Schema(
     bundlePrice: {
       type: Number,
       required: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
     },
   },
   {

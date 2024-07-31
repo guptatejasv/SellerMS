@@ -6,7 +6,11 @@ export const getBundleProducts = async (req: Request, res: Response) => {
   try {
     const user = req.user;
 
-    const bundleProduct = await BundleProduct.find({ sellerId: user.id });
+    const bundleProduct = await BundleProduct.find({
+      sellerId: user,
+      isDeleted: false,
+    });
+
     res.status(200).json({
       status: "success",
       result: bundleProduct.length,

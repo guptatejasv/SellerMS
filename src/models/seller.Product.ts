@@ -7,6 +7,8 @@ export interface IAuth extends Document {
   price: number;
   category: string;
   stock?: number;
+  isBlocked: boolean;
+  isDeleted: boolean;
   discount?: number;
 }
 
@@ -33,7 +35,14 @@ const AuthSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     stock: {
       type: Number,
     },

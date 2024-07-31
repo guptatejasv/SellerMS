@@ -5,7 +5,10 @@ export const getProducts = async (req: Request, res: Response) => {
   try {
     const user = req.user;
 
-    const products = await Product.find({ sellerId: user.id });
+    const products = await Product.find({
+      sellerId: user.id,
+      isDeleted: false,
+    });
     res.status(200).json({
       status: "success",
       result: products.length,
