@@ -3,7 +3,6 @@ import { Product } from "./seller.Product";
 
 interface Product {
   productId: ObjectId;
-  productName: string;
 }
 export interface IAuth extends Document {
   sellerId: ObjectId;
@@ -18,7 +17,6 @@ export interface IAuth extends Document {
 
 const productSchema = new Schema<Product>({
   productId: { type: Schema.Types.ObjectId, required: true },
-  productName: { type: String, required: true },
 });
 
 const AuthSchema: Schema = new Schema(
