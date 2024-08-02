@@ -1,15 +1,9 @@
 import { Request, Response } from "express";
 import { Product } from "../models/seller.Product";
 
-export const getProducts = async (req: Request, res: Response) => {
+export const provide = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
-    console.log(user);
-
-    const products = await Product.find({
-      sellerId: user.id,
-      isDeleted: false,
-    });
+    const products = await Product.find();
 
     res.status(200).json({
       status: "success",

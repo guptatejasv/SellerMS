@@ -7,7 +7,8 @@ export interface IAuth extends Document {
   discount?: number;
   startDate?: Date;
   endDate?: Date;
-  isBlocked: boolean;
+  isBlocked?: boolean;
+  isBlockedBy?: ObjectId;
   isDeleted: boolean;
 }
 
@@ -42,6 +43,9 @@ const AuthSchema: Schema = new Schema(
     isBlocked: {
       type: Boolean,
       default: false,
+    },
+    isBlockedBy: {
+      type: Schema.Types.ObjectId,
     },
   },
   {

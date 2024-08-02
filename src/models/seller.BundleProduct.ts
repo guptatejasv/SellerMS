@@ -12,6 +12,7 @@ export interface IAuth extends Document {
   products: Product[];
   bundlePrice: number;
   isBlocked: boolean;
+  isBlockedBy: ObjectId;
   isDeleted: boolean;
 }
 
@@ -50,6 +51,9 @@ const AuthSchema: Schema = new Schema(
     isBlocked: {
       type: Boolean,
       default: false,
+    },
+    isBlockedBy: {
+      type: Schema.Types.ObjectId,
     },
   },
   {

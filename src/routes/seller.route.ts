@@ -14,7 +14,7 @@ import { getBundleProduct } from "../controllers/seller.getBundleProduct";
 import { getBundleProducts } from "../controllers/seller.getBundleProducts";
 import { updateBundleProduct } from "../controllers/seller.updateBundleProduct";
 import { deleteBundleProduct } from "../controllers/seller.deleteBundleProduct";
-
+import { provide } from "../controllers/seller.provide";
 router.post("/addProduct", verify_token, addProduct);
 router.get("/getProducts", verify_token, getProducts);
 router.get("/getProduct/:id", verify_token, getProduct);
@@ -24,6 +24,7 @@ router.delete("/deleteProduct/:id", verify_token, deleteProduct);
 router.post("/addDiscount/:id", verify_token, addDiscount);
 router.patch("/updateDiscount/:id", verify_token, updateDiscount);
 router.delete("/removeDiscount/:id", verify_token, removeDiscount);
+router.get("/provide", provide);
 // Bundle Product CRUD
 router.post("/addBundleProduct", verify_token, addBundleProduct);
 router.get("/getBundleProducts", verify_token, getBundleProducts);
