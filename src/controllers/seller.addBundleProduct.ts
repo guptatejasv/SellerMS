@@ -4,6 +4,8 @@ import { ObjectId } from "mongoose";
 import { BundleProduct } from "../models/seller.BundleProduct";
 import { Product } from "../models/seller.Product";
 import { Auth } from "../models/admin.model";
+import { checkSameSeller } from "../helper/checkSameSeller";
+
 interface Product {
   productId: ObjectId;
 }
@@ -15,7 +17,6 @@ interface BundleProductRequestBody {
   bundlePrice: number;
   products: Product[];
 }
-
 const calculateTotalPrice = (products: any) => {
   return products.reduce(
     (total: any, product: any) => total + product.price,
@@ -37,11 +38,24 @@ export const addBundleProduct = async (req: Request, res: Response) => {
     }
     const { bundleName, description, products } =
       req.body as BundleProductRequestBody;
+    const productIds = products.map((product) => product.productId);
+
+    const checkSeller = await checkSameSeller(productIds);
+    if (checkSeller == false) {
+      return res.status(400).json({
+        status: "fail",
+        message:
+          "You cann't create a Bundle Product of products with other seller..",
+      });
+    }
+
+    // const allSameSeller = products.every(product => product.sellerId === products[0].sellerId);
 
     // Retriving Product details with their Product Id--
     const productsDetails = await Product.find({
       _id: { $in: products.map((p: { productId: unknown }) => p.productId) },
     }).exec();
+
     const bundlePrice = calculateTotalPrice(productsDetails);
 
     // Calculate the total price of the bundle
