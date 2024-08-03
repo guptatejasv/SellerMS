@@ -7,21 +7,21 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const user = req.user;
     const seller = await Auth.findById(user.id);
     if (seller) {
-      if (seller.role != "seller") {
-        return res.status(401).json({
-          status: "fail",
-          message: "You are unautherized to add products.",
+      if (seller.role == "seller") {
+        const product = await Product.findById(pro_id);
+        if (product) {
+          product.isDeleted = true;
+          await product.save();
+        }
+        return res.status(200).json({
+          status: "success",
+          message: "Product deleted successfully..",
         });
       }
     }
-    const product = await Product.findById(pro_id);
-    if (product) {
-      product.isDeleted = true;
-      await product.save();
-    }
-    res.status(200).json({
-      status: "success",
-      message: "Product deleted successfully..",
+    return res.status(401).json({
+      status: "fail",
+      message: "You are unautherized to delete products.",
     });
   } catch (err) {
     res.status(400).json({

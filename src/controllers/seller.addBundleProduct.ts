@@ -29,51 +29,50 @@ export const addBundleProduct = async (req: Request, res: Response) => {
 
     const seller = await Auth.findById(user.id);
     if (seller) {
-      if (seller.role != "seller") {
-        return res.status(401).json({
-          status: "fail",
-          message: "You are unautherized to add products.",
+      if (seller.role == "seller") {
+        const { bundleName, description, products } =
+          req.body as BundleProductRequestBody;
+        const productIds = products.map((product) => product.productId);
+
+        const checkSeller = await checkSameSeller(productIds);
+        if (checkSeller == false) {
+          return res.status(400).json({
+            status: "fail",
+            message: "You cann't do this with other seller's products",
+          });
+        }
+
+        // Retriving Product details with their Product Id--
+        const productsDetails = await Product.find({
+          _id: {
+            $in: products.map((p: { productId: unknown }) => p.productId),
+          },
+        }).exec();
+
+        const bundlePrice = calculateTotalPrice(productsDetails);
+
+        // Calculate the total price of the bundle
+
+        const bundleProduct = await BundleProduct.create({
+          sellerId: user.id,
+          bundleName,
+          description,
+          bundlePrice,
+          products,
+        });
+
+        return res.status(201).json({
+          status: "success",
+          message: "Bundle Product Added Successfully..",
+          data: {
+            bundleProduct,
+          },
         });
       }
     }
-    const { bundleName, description, products } =
-      req.body as BundleProductRequestBody;
-    const productIds = products.map((product) => product.productId);
-
-    const checkSeller = await checkSameSeller(productIds);
-    if (checkSeller == false) {
-      return res.status(400).json({
-        status: "fail",
-        message:
-          "You cann't create a Bundle Product of products with other seller..",
-      });
-    }
-
-    // const allSameSeller = products.every(product => product.sellerId === products[0].sellerId);
-
-    // Retriving Product details with their Product Id--
-    const productsDetails = await Product.find({
-      _id: { $in: products.map((p: { productId: unknown }) => p.productId) },
-    }).exec();
-
-    const bundlePrice = calculateTotalPrice(productsDetails);
-
-    // Calculate the total price of the bundle
-
-    const bundleProduct = await BundleProduct.create({
-      sellerId: user.id,
-      bundleName,
-      description,
-      bundlePrice,
-      products,
-    });
-
-    res.status(201).json({
-      status: "success",
-      message: "Bundle Product Added Successfully..",
-      data: {
-        bundleProduct,
-      },
+    return res.status(401).json({
+      status: "fail",
+      message: "You are unautherized to add products.",
     });
   } catch (err) {
     res.status(400).json({

@@ -8,33 +8,33 @@ export const addDiscount = async (req: Request, res: Response) => {
     const user = req.user;
     const seller = await Auth.findById(user.id);
     if (seller) {
-      if (seller.role != "seller") {
-        return res.status(401).json({
-          status: "fail",
-          message: "You are unautherized to add products.",
+      if (seller.role == "seller") {
+        const pro_id = req.params.id;
+        const { discountType, discount, startDate, endDate } = req.body;
+        if (!discountType || !discount || !startDate || !endDate) {
+          return res
+            .status(204)
+            .json({ message: "All fields are required to fill" });
+        }
+        const discountDetail = await Discount.create({
+          sellerId: id,
+          productId: pro_id,
+          discountType,
+          discount,
+          startDate,
+          endDate,
+        });
+        return res.status(201).json({
+          status: "success",
+          data: {
+            discountDetail,
+          },
         });
       }
     }
-    const pro_id = req.params.id;
-    const { discountType, discount, startDate, endDate } = req.body;
-    if (!discountType || !discount || !startDate || !endDate) {
-      return res
-        .status(204)
-        .json({ message: "All fields are required to fill" });
-    }
-    const discountDetail = await Discount.create({
-      sellerId: id,
-      productId: pro_id,
-      discountType,
-      discount,
-      startDate,
-      endDate,
-    });
-    res.status(201).json({
-      status: "success",
-      data: {
-        discountDetail,
-      },
+    return res.status(401).json({
+      status: "fail",
+      message: "You are unautherized to add products.",
     });
   } catch (err) {
     res.status(400).json({
