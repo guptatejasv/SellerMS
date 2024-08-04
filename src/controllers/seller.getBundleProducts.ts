@@ -11,13 +11,14 @@ export const getBundleProducts = async (req: Request, res: Response) => {
       if (seller.role != "seller") {
         return res.status(401).json({
           status: "fail",
-          message: "You are unautherized to add products.",
+          message: "You are unautherized to Get Bundle products.",
         });
       }
     }
     const bundleProduct = await BundleProduct.find({
-      sellerId: user,
+      sellerId: user.id,
       isDeleted: false,
+      isBlocked: false,
     });
 
     res.status(200).json({

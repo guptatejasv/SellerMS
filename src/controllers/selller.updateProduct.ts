@@ -11,10 +11,10 @@ export const updateProduct = async (req: Request, res: Response) => {
         const pro_id = req.params.id;
         const productPrev = await Product.findById(pro_id);
         if (productPrev) {
-          if (productPrev.isDeleted == true) {
+          if (productPrev.isDeleted == true || productPrev.isBlocked == true) {
             return res.status(400).json({
               status: "fail",
-              message: `This product has been deleted..`,
+              message: `You cann't update this product. This product has been deleted or blocked by admin..`,
             });
           }
         }

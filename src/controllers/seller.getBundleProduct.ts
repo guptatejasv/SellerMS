@@ -11,17 +11,17 @@ export const getBundleProduct = async (req: Request, res: Response) => {
       if (seller.role != "seller") {
         return res.status(401).json({
           status: "fail",
-          message: "You are unautherized to add products.",
+          message: "You are unautherized to Get Bundle products.",
         });
       }
     }
     const bundleProduct = await BundleProduct.findById(bundlePro_id);
 
     if (bundleProduct) {
-      if (bundleProduct.isDeleted == true) {
+      if (bundleProduct.isDeleted == true || bundleProduct.isBlocked == true) {
         return res.status(400).json({
           status: "fail",
-          message: `This Bundle product has been deleted..`,
+          message: `This Bundle product has been deleted or Blocked by admin..`,
         });
       }
     }

@@ -12,7 +12,17 @@ export const deleteBundleProduct = async (req: Request, res: Response) => {
         const bundlePro_id = req.params.id;
 
         const bundleProduct = await BundleProduct.findById(bundlePro_id);
-
+        if (bundleProduct) {
+          if (
+            bundleProduct.isDeleted == true ||
+            bundleProduct.isBlocked == true
+          ) {
+            return res.status(400).json({
+              status: "fail",
+              message: `This Bundle product has been already deleted or Blocked by admin..`,
+            });
+          }
+        }
         if (bundleProduct) {
           bundleProduct.isDeleted = true;
           await bundleProduct.save();
@@ -26,7 +36,7 @@ export const deleteBundleProduct = async (req: Request, res: Response) => {
     }
     return res.status(401).json({
       status: "fail",
-      message: "You are unautherized to add products.",
+      message: "You are unautherized to Delete Bundle product.",
     });
   } catch (err) {
     res.status(400).json({

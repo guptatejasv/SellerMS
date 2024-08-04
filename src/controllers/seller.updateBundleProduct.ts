@@ -12,10 +12,13 @@ export const updateBundleProduct = async (req: Request, res: Response) => {
       if (seller.role == "seller") {
         const bundleProductPrev = await BundleProduct.findById(pro_id);
         if (bundleProductPrev) {
-          if (bundleProductPrev.isDeleted == true) {
+          if (
+            bundleProductPrev.isDeleted == true ||
+            bundleProductPrev.isBlocked == true
+          ) {
             return res.status(400).json({
               status: "fail",
-              message: `This Bundle Product has been deleted..`,
+              message: `You cann't update this Bundle Product. This Bundle Product has been deleted or blocked by admin..`,
             });
           }
         }
@@ -39,7 +42,7 @@ export const updateBundleProduct = async (req: Request, res: Response) => {
     }
     return res.status(401).json({
       status: "fail",
-      message: "You are unautherized to add products.",
+      message: "You are unautherized to update Bundle products.",
     });
   } catch (err) {
     res.status(400).json({

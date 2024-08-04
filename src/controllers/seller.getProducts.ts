@@ -18,6 +18,7 @@ export const getProducts = async (req: Request, res: Response) => {
     const products = await Product.find({
       sellerId: user.id,
       isDeleted: false,
+      isBlocked: false,
     });
 
     res.status(200).json({
