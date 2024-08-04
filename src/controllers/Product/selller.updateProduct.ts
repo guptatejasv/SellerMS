@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-
-import { Discount } from "../models/seller.Discount";
-import { Auth } from "../models/admin.model";
-export const updateDiscount = async (req: Request, res: Response) => {
+import { Product } from "../../models/seller.Product";
+import { Auth } from "../../models/admin.model";
+export const updateProduct = async (req: Request, res: Response) => {
   try {
     // const user = req.user;
     const user = req.user;
@@ -10,29 +9,25 @@ export const updateDiscount = async (req: Request, res: Response) => {
     if (seller) {
       if (seller.role == "seller") {
         const pro_id = req.params.id;
-        const discountPrev = await Discount.findById(pro_id);
-        if (discountPrev) {
-          if (discountPrev.isDeleted == true) {
+        const productPrev = await Product.findById(pro_id);
+        if (productPrev) {
+          if (productPrev.isDeleted == true || productPrev.isBlocked == true) {
             return res.status(400).json({
               status: "fail",
-              message: `This Discount has been deleted..`,
+              message: `You cann't update this product. This product has been deleted or blocked by admin..`,
             });
           }
         }
 
-        const discountDetail = await Discount.findOneAndUpdate(
-          { productId: pro_id },
-          req.body,
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
+        const product = await Product.findByIdAndUpdate(pro_id, req.body, {
+          new: true,
+          runValidators: true,
+        });
         return res.status(200).json({
           status: "success",
           message: "Product details updated successfully..!",
           result: {
-            discountDetail,
+            product,
           },
         });
       }

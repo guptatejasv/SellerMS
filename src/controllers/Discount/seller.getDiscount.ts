@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Product } from "../models/seller.Product";
-import { Auth } from "../models/admin.model";
-export const getProduct = async (req: Request, res: Response) => {
+import { Auth } from "../../models/admin.model";
+import { Discount } from "../../models/seller.Discount";
+export const getDiscount = async (req: Request, res: Response) => {
   try {
     const pro_id = req.params.id;
     const user = req.user;
@@ -10,23 +10,23 @@ export const getProduct = async (req: Request, res: Response) => {
       if (seller.role != "seller") {
         return res.status(401).json({
           status: "fail",
-          message: "You are unautherized to add products.",
+          message: "You are unautherized to get Discount.",
         });
       }
     }
-    const product = await Product.findById(pro_id);
-    if (product) {
-      if (product.isDeleted == true || product.isBlocked == true) {
+    const discount = await Discount.findOne({ productId: pro_id });
+    if (discount) {
+      if (discount.isDeleted == true || discount.isBlocked == true) {
         return res.status(400).json({
           status: "fail",
-          message: `This product has been deleted or Blocked by admin..`,
+          message: `This Discount has been deleted or Blocked by admin..`,
         });
       }
     }
     res.status(200).json({
       status: "success",
       data: {
-        product,
+        discount,
       },
     });
   } catch (err) {

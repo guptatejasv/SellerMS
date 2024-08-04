@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { BundleProduct } from "../models/seller.BundleProduct";
-import { Auth } from "../models/admin.model";
+import { BundleProduct } from "../../models/seller.BundleProduct";
+import { Auth } from "../../models/admin.model";
 export const getBundleProduct = async (req: Request, res: Response) => {
   try {
     const bundlePro_id = req.params.id;

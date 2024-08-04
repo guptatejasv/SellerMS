@@ -1,20 +1,22 @@
 import { Router } from "express";
 const router = Router();
-import { addProduct } from "../controllers/seller.addProduct";
-import { getProducts } from "../controllers/seller.getProducts";
+import { addProduct } from "../controllers/Product/seller.addProduct";
+import { getProducts } from "../controllers/Product/seller.getProducts";
 import { verify_token } from "../middlewares/jwtverify";
-import { updateProduct } from "../controllers/selller.updateProduct";
-import { deleteProduct } from "../controllers/seller.deleteProduct";
-import { getProduct } from "../controllers/seller.getProduct";
-import { addDiscount } from "../controllers/seller.addDiscount";
-import { removeDiscount } from "../controllers/seller.removeDiscount";
-import { updateDiscount } from "../controllers/seller.updateDiscount";
-import { addBundleProduct } from "../controllers/seller.addBundleProduct";
-import { getBundleProduct } from "../controllers/seller.getBundleProduct";
-import { getBundleProducts } from "../controllers/seller.getBundleProducts";
-import { updateBundleProduct } from "../controllers/seller.updateBundleProduct";
-import { deleteBundleProduct } from "../controllers/seller.deleteBundleProduct";
+import { updateProduct } from "../controllers/Product/selller.updateProduct";
+import { deleteProduct } from "../controllers/Product/seller.deleteProduct";
+import { getProduct } from "../controllers/Product/seller.getProduct";
+import { addDiscount } from "../controllers/Discount/seller.addDiscount";
+import { removeDiscount } from "../controllers/Discount/seller.removeDiscount";
+import { updateDiscount } from "../controllers/Discount/seller.updateDiscount";
+import { addBundleProduct } from "../controllers/Bundle Product/seller.addBundleProduct";
+import { getBundleProduct } from "../controllers/Bundle Product/seller.getBundleProduct";
+import { getBundleProducts } from "../controllers/Bundle Product/seller.getBundleProducts";
+import { updateBundleProduct } from "../controllers/Bundle Product/seller.updateBundleProduct";
+import { deleteBundleProduct } from "../controllers/Bundle Product/seller.deleteBundleProduct";
+import { getDiscount } from "../controllers/Discount/seller.getDiscount";
 import { provide } from "../controllers/seller.provide";
+
 router.post("/addProduct", verify_token, addProduct);
 router.get("/getProducts", verify_token, getProducts);
 router.get("/getProduct/:id", verify_token, getProduct);
@@ -23,6 +25,7 @@ router.delete("/deleteProduct/:id", verify_token, deleteProduct);
 // Discount APIs
 router.post("/addDiscount/:id", verify_token, addDiscount);
 router.patch("/updateDiscount/:id", verify_token, updateDiscount);
+router.get("/getDiscount/:id", verify_token, getDiscount);
 router.delete("/removeDiscount/:id", verify_token, removeDiscount);
 router.get("/provide", provide);
 // Bundle Product CRUD

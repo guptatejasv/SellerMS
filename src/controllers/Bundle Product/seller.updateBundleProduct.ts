@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 // import { Product } from "../models/seller.Product";
-import { BundleProduct } from "../models/seller.BundleProduct";
-import { Auth } from "../models/admin.model";
+import { BundleProduct } from "../../models/seller.BundleProduct";
+import { Auth } from "../../models/admin.model";
 export const updateBundleProduct = async (req: Request, res: Response) => {
   try {
     // const user = req.user;

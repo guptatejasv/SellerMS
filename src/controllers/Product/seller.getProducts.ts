@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Product } from "../models/seller.Product";
-import { Auth } from "../models/admin.model";
+import { Product } from "../../models/seller.Product";
+import { Auth } from "../../models/admin.model";
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const user = req.user;

@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 // import { Product } from "../models/seller.Product";
-import { Discount } from "../models/seller.Discount";
-import { Auth } from "../models/admin.model";
+import { Discount } from "../../models/seller.Discount";
+import { Auth } from "../../models/admin.model";
+import { Product } from "../../models/seller.Product";
 export const addDiscount = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
@@ -24,6 +25,16 @@ export const addDiscount = async (req: Request, res: Response) => {
           startDate,
           endDate,
         });
+        const product = await Product.findById(pro_id);
+        if (product) {
+          const discountedPrice =
+            product.price - (product.price * discount) / 100;
+          product.DiscountPrice = discountedPrice;
+          (product.DiscountAddedBy = ["Seller"]),
+            (product.DiscountCreatorId = id);
+          await product.save();
+        }
+
         return res.status(201).json({
           status: "success",
           data: {

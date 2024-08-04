@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 // import { Product } from "../models/seller.Product";
-import { Discount } from "../models/seller.Discount";
-import { Auth } from "../models/admin.model";
+import { Discount } from "../../models/seller.Discount";
+import { Auth } from "../../models/admin.model";
 export const removeDiscount = async (req: Request, res: Response) => {
   try {
     const pro_id = req.params.id;

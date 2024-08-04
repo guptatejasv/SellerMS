@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { ObjectId } from "mongoose";
-import { BundleProduct } from "../models/seller.BundleProduct";
-import { Product } from "../models/seller.Product";
-import { Auth } from "../models/admin.model";
-import { checkSameSeller } from "../helper/checkSameSeller";
+import { BundleProduct } from "../../models/seller.BundleProduct";
+import { Product } from "../../models/seller.Product";
+import { Auth } from "../../models/admin.model";
+import { checkSameSeller } from "../../helper/checkSameSeller";
 
 interface Product {
   productId: ObjectId;

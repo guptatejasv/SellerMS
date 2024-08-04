@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 // import { Product } from "../models/seller.Product";
-import { Auth } from "../models/admin.model";
-import { BundleProduct } from "../models/seller.BundleProduct";
+import { Auth } from "../../models/admin.model";
+import { BundleProduct } from "../../models/seller.BundleProduct";
 
 export const deleteBundleProduct = async (req: Request, res: Response) => {
   try {
