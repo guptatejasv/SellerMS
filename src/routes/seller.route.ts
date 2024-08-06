@@ -16,13 +16,16 @@ import { updateBundleProduct } from "../controllers/Bundle Product/seller.update
 import { deleteBundleProduct } from "../controllers/Bundle Product/seller.deleteBundleProduct";
 import { getDiscount } from "../controllers/Discount/seller.getDiscount";
 import { provide } from "../controllers/seller.provide";
+import { getCategory } from "../controllers/Category/seller.getCategory";
+import { getAllCategory } from "../controllers/Category/seller.getAllCategory";
 
 router.post("/addProduct", verify_token, addProduct);
 router.get("/getProducts", verify_token, getProducts);
 router.get("/getProduct/:id", verify_token, getProduct);
 router.patch("/updateProduct/:id", verify_token, updateProduct);
 router.delete("/deleteProduct/:id", verify_token, deleteProduct);
-// Discount APIs
+// Discount routes
+
 router.post("/addDiscount/:id", verify_token, addDiscount);
 router.patch("/updateDiscount/:id", verify_token, updateDiscount);
 router.get("/getDiscount/:id", verify_token, getDiscount);
@@ -34,4 +37,8 @@ router.get("/getBundleProducts", verify_token, getBundleProducts);
 router.get("/getBundleProduct/:id", verify_token, getBundleProduct);
 router.patch("/updateBundleProduct/:id", verify_token, updateBundleProduct);
 router.delete("/deleteBundleProduct/:id", verify_token, deleteBundleProduct);
+// Category realted routes
+router.get("/getAllCategory", verify_token, getAllCategory);
+router.get("/getCategory/:id", verify_token, getCategory);
+
 export default router;
