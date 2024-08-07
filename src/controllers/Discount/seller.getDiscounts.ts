@@ -14,17 +14,16 @@ export const getDiscount = async (req: Request, res: Response) => {
         });
       }
     }
-    const discount = await Discount.findOne({ productId: pro_id });
-    if (discount) {
-      if (discount.isDeleted == true || discount.isBlocked == true) {
-        return res.status(400).json({
-          status: "fail",
-          message: `This Discount has been deleted or Blocked by admin..`,
-        });
-      }
-    }
+    const discount = await Discount.find({
+      productId: pro_id,
+      isDeleted: false,
+      isBlocked: false,
+    });
+    console.log(discount);
+
     res.status(200).json({
       status: "success",
+      results: discount.length,
       data: {
         discount,
       },
