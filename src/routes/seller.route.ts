@@ -18,6 +18,7 @@ import { getCategory } from "../controllers/Category/seller.getCategory";
 import { getAllCategory } from "../controllers/Category/seller.getAllCategory";
 import { getDiscounts } from "../controllers/Discount/seller.getDiscounts";
 import { addDiscountOnBundle } from "../controllers/Discount/seller.addDiscountBundle";
+import { deleteDiscountOnBundle } from "../controllers/Discount/seller.deleteDiscountBundle";
 
 router.post("/addProduct", verify_token, addProduct);
 router.get("/getProducts", verify_token, getProducts);
@@ -31,6 +32,11 @@ router.patch("/updateDiscount/:id", verify_token, updateDiscount);
 router.get("/getDiscounts/:id", verify_token, getDiscounts);
 router.delete("/deleteDiscount/:id", verify_token, deleteDiscount);
 router.post("/addDiscountOnBundle/:id", verify_token, addDiscountOnBundle);
+router.delete(
+  "/deleteDiscountOnBundle/:id",
+  verify_token,
+  deleteDiscountOnBundle
+);
 
 // Bundle Product CRUD
 router.post("/addBundleProduct", verify_token, addBundleProduct);

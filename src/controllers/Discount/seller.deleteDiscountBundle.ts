@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-// import { Product } from "../models/seller.Product";
 import { Discount } from "../../models/seller.Discount";
 import { Auth } from "../../models/admin.model";
-import { Product } from "../../models/seller.Product";
+import { BundleProduct } from "../../models/seller.BundleProduct";
 
-export const deleteDiscount = async (req: Request, res: Response) => {
+export const deleteDiscountOnBundle = async (req: Request, res: Response) => {
   try {
     const dis_id = req.params.id;
     const user = req.user;
@@ -12,16 +11,15 @@ export const deleteDiscount = async (req: Request, res: Response) => {
     if (seller) {
       if (seller.role == "seller") {
         const discount = await Discount.findById(dis_id);
-        const product = await Product.findOne({
+        const bundleProduct = await BundleProduct.findOne({
           _id: discount?.productId,
         });
         if (discount?.adminId) {
           return res.status(200).json({
             status: "fail",
-            message: "You cann't delete the discount added by admin..",
+            message: "You cann't delete the discount added by seller..",
           });
         }
-
         if (discount) {
           if (discount.isDeleted == true) {
             return res.status(400).json({
@@ -33,35 +31,35 @@ export const deleteDiscount = async (req: Request, res: Response) => {
           await discount.save();
         }
 
-        if (product) {
-          if (!product?.DiscountPrice) {
+        if (bundleProduct) {
+          if (!bundleProduct?.DiscountPrice) {
             const revivedPrice =
-              (product?.price || 0) +
+              (bundleProduct?.bundlePrice || 0) +
               ((discount?.previousPrice || 0) * (discount?.discount || 0)) /
                 100;
-            product.DiscountPrice = revivedPrice;
+            bundleProduct.DiscountPrice = revivedPrice;
 
-            await product.save();
+            await bundleProduct.save();
           } else {
             const revivedPrice =
-              (product?.DiscountPrice || 0) +
+              (bundleProduct?.DiscountPrice || 0) +
               ((discount?.previousPrice || 0) * (discount?.discount || 0)) /
                 100;
-            product.DiscountPrice = revivedPrice;
-            if (product.DiscountPrice == product.price) {
-              product.DiscountPrice = undefined;
-              product.sellerDiscountId = undefined;
+            bundleProduct.DiscountPrice = revivedPrice;
+            if (bundleProduct.DiscountPrice == bundleProduct.bundlePrice) {
+              bundleProduct.DiscountPrice = undefined;
+              bundleProduct.sellerDiscountId = undefined;
 
-              await product.save();
+              await bundleProduct.save();
             }
-            await product.save();
+            await bundleProduct.save();
           }
-          const updatedDiscountIds = (product.sellerDiscountId || []).filter(
-            (id) => id.toString() !== dis_id.toString()
-          );
+          const updatedDiscountIds = (
+            bundleProduct.sellerDiscountId || []
+          ).filter((id) => id.toString() !== dis_id.toString());
 
-          product.sellerDiscountId = updatedDiscountIds;
-          await product.save();
+          bundleProduct.sellerDiscountId = updatedDiscountIds;
+          await bundleProduct.save();
         }
         console.log(discount);
         return res.status(200).json({
