@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Auth } from "../../models/admin.model";
 import { Discount } from "../../models/seller.Discount";
-export const getDiscount = async (req: Request, res: Response) => {
+export const getDiscounts = async (req: Request, res: Response) => {
   try {
     const pro_id = req.params.id;
     const user = req.user;

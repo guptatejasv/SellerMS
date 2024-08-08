@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.17",
+    "@types/node-cron": "^3.0.11",
     "amqplib": "^0.10.4",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -36,6 +37,8 @@
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.5.1"
+    "moment": "^2.30.1",
+    "mongoose": "^8.5.1",
+    "node-cron": "^3.0.3"
   }
 }

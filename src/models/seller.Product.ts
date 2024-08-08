@@ -20,7 +20,6 @@ const AuthSchema: Schema = new Schema(
     sellerId: {
       type: Schema.Types.ObjectId,
       ref: "Auth",
-      required: true,
     },
     name: {
       type: String,

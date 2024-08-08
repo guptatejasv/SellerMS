@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import router from "./routes/seller.route";
 import connectDB from "./config/seller.db";
+import "../../Seller-MS/src/helper/schedular";
 
 dotenv.config();
 const port = process.env.PORT;

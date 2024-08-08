@@ -44,6 +44,8 @@ export const deleteDiscount = async (req: Request, res: Response) => {
             product.DiscountPrice = revivedPrice;
             if (product.DiscountPrice == product.price) {
               product.DiscountPrice = undefined;
+              product.sellerDiscountId = undefined;
+
               await product.save();
             }
             await product.save();

@@ -10,6 +10,9 @@ export interface IAuth extends Document {
   description: string;
   products: Product[];
   bundlePrice: number;
+  sellerDiscountId?: ObjectId[];
+  adminDiscountId?: ObjectId[];
+  DiscountPrice?: number;
   isBlocked: boolean;
   isBlockedBy: ObjectId;
   isDeleted: boolean;
@@ -24,7 +27,6 @@ const AuthSchema: Schema = new Schema(
     sellerId: {
       type: Schema.Types.ObjectId,
       ref: "Auth",
-      required: true,
     },
     bundleName: {
       type: String,
@@ -34,9 +36,18 @@ const AuthSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    sellerDiscountId: {
+      type: [Schema.Types.ObjectId],
+    },
+    adminDiscountId: {
+      type: [Schema.Types.ObjectId],
+    },
     products: {
       type: [productSchema],
       required: true,
+    },
+    DiscountPrice: {
+      type: Number,
     },
     bundlePrice: {
       type: Number,

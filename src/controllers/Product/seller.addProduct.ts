@@ -12,13 +12,6 @@ export const addProduct = async (req: Request, res: Response) => {
     if (seller) {
       if (seller.role == "seller") {
         const { name, description, price, category } = req.body;
-        const product = await Product.create({
-          sellerId: user.id,
-          name,
-          description,
-          price,
-          category,
-        });
         const catExit = await Category.findOne({ categoryName: category });
         if (!catExit) {
           return res.status(400).json({
@@ -26,6 +19,13 @@ export const addProduct = async (req: Request, res: Response) => {
             message: "The category you choose does not exist..",
           });
         }
+        const product = await Product.create({
+          sellerId: user.id,
+          name,
+          description,
+          price,
+          category,
+        });
 
         return res.status(201).json({
           status: "success",

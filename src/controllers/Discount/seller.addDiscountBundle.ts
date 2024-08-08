@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-// import { Product } from "../models/seller.Product";
 import { Discount } from "../../models/seller.Discount";
 import { Auth } from "../../models/admin.model";
-import { Product } from "../../models/seller.Product";
+import { BundleProduct } from "../../models/seller.BundleProduct";
 
-export const addDiscount = async (req: Request, res: Response) => {
+export const addDiscountOnBundle = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
     const user = req.user;
@@ -18,14 +17,14 @@ export const addDiscount = async (req: Request, res: Response) => {
             .status(204)
             .json({ message: "All fields are required to fill" });
         }
-        const products = await Product.findById(pro_id);
-        if (!products) {
+        const bundleProducts = await BundleProduct.findById(pro_id);
+        if (!bundleProducts) {
           return res.status(200).json({
             status: "fail",
             message: "Product with this id does not exist..",
           });
         }
-        if (!products.sellerDiscountId) {
+        if (!bundleProducts.sellerDiscountId) {
           return res.status(400).json({
             status: "success",
             message: "you can not add discount to products added by admin",
@@ -53,26 +52,27 @@ export const addDiscount = async (req: Request, res: Response) => {
           sellerId: id,
           productId: pro_id,
         });
-        if (!products?.DiscountPrice) {
-          if (products) {
-            discountDetail.previousPrice = products.price;
-            await discountDetail.save();
-            const discountPrice =
-              products.price - (products.price * discount) / 100;
-            products.DiscountPrice = discountPrice;
-
-            await products.save();
-          }
-        } else {
-          discountDetail.previousPrice = products.DiscountPrice;
+        console.log();
+        if (!bundleProducts?.DiscountPrice) {
+          discountDetail.previousPrice = bundleProducts.bundlePrice;
           await discountDetail.save();
           const discountPrice =
-            products.DiscountPrice - (products.DiscountPrice * discount) / 100;
-          products.DiscountPrice = discountPrice;
+            bundleProducts.bundlePrice -
+            (bundleProducts.bundlePrice * discount) / 100;
+          bundleProducts.DiscountPrice = discountPrice;
 
-          await products.save();
+          await bundleProducts.save();
+        } else {
+          discountDetail.previousPrice = bundleProducts.DiscountPrice;
+          await discountDetail.save();
+          const discountPrice =
+            bundleProducts.DiscountPrice -
+            (bundleProducts.DiscountPrice * discount) / 100;
+          bundleProducts.DiscountPrice = discountPrice;
+
+          await bundleProducts.save();
         }
-        await Product.findByIdAndUpdate(pro_id, {
+        await BundleProduct.findByIdAndUpdate(pro_id, {
           sellerDiscountId: discountId,
         });
         console.log(discountId);

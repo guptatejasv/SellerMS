@@ -14,10 +14,10 @@ import { getBundleProduct } from "../controllers/Bundle Product/seller.getBundle
 import { getBundleProducts } from "../controllers/Bundle Product/seller.getBundleProducts";
 import { updateBundleProduct } from "../controllers/Bundle Product/seller.updateBundleProduct";
 import { deleteBundleProduct } from "../controllers/Bundle Product/seller.deleteBundleProduct";
-import { getDiscount } from "../controllers/Discount/seller.getDiscounts";
-import { provide } from "../controllers/seller.provide";
 import { getCategory } from "../controllers/Category/seller.getCategory";
 import { getAllCategory } from "../controllers/Category/seller.getAllCategory";
+import { getDiscounts } from "../controllers/Discount/seller.getDiscounts";
+import { addDiscountOnBundle } from "../controllers/Discount/seller.addDiscountBundle";
 
 router.post("/addProduct", verify_token, addProduct);
 router.get("/getProducts", verify_token, getProducts);
@@ -28,9 +28,10 @@ router.delete("/deleteProduct/:id", verify_token, deleteProduct);
 
 router.post("/addDiscount/:id", verify_token, addDiscount);
 router.patch("/updateDiscount/:id", verify_token, updateDiscount);
-router.get("/getDiscount/:id", verify_token, getDiscount);
-router.delete("/removeDiscount/:id", verify_token, deleteDiscount);
-router.get("/provide", provide);
+router.get("/getDiscounts/:id", verify_token, getDiscounts);
+router.delete("/deleteDiscount/:id", verify_token, deleteDiscount);
+router.post("/addDiscountOnBundle/:id", verify_token, addDiscountOnBundle);
+
 // Bundle Product CRUD
 router.post("/addBundleProduct", verify_token, addBundleProduct);
 router.get("/getBundleProducts", verify_token, getBundleProducts);
