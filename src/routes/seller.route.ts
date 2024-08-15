@@ -25,6 +25,12 @@ router.get("/getProducts", verify_token, getProducts);
 router.get("/getProduct/:id", verify_token, getProduct);
 router.patch("/updateProduct/:id", verify_token, updateProduct);
 router.delete("/deleteProduct/:id", verify_token, deleteProduct);
+// Bundle Product CRUD
+router.post("/addBundleProduct", verify_token, addBundleProduct);
+router.get("/getBundleProducts", verify_token, getBundleProducts);
+router.get("/getBundleProduct/:id", verify_token, getBundleProduct);
+router.patch("/updateBundleProduct/:id", verify_token, updateBundleProduct);
+router.delete("/deleteBundleProduct/:id", verify_token, deleteBundleProduct);
 // Discount routes
 
 router.post("/addDiscount/:id", verify_token, addDiscount);
@@ -38,12 +44,6 @@ router.delete(
   deleteDiscountOnBundle
 );
 
-// Bundle Product CRUD
-router.post("/addBundleProduct", verify_token, addBundleProduct);
-router.get("/getBundleProducts", verify_token, getBundleProducts);
-router.get("/getBundleProduct/:id", verify_token, getBundleProduct);
-router.patch("/updateBundleProduct/:id", verify_token, updateBundleProduct);
-router.delete("/deleteBundleProduct/:id", verify_token, deleteBundleProduct);
 // Category realted routes
 router.get("/getAllCategory", verify_token, getAllCategory);
 router.get("/getCategory/:id", verify_token, getCategory);

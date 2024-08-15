@@ -36,7 +36,7 @@ export const getBundleProducts = async (req: Request, res: Response) => {
       sellerId: user.id,
       isDeleted: false,
       isBlocked: false,
-    });
+    }).populate("products");
 
     res.status(200).json({
       status: "success",
